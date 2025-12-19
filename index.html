@@ -2,532 +2,326 @@
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="dark light" />
+  <meta name="theme-color" content="#0b1220" />
   <title>张楠远扬 · 个人主页 | Nanyuanyang Zhang</title>
-  <meta name="description" content="张楠远扬（Nanyuanyang Zhang）个人主页：教育背景、实习经历、项目与联系方式。中英双语。" />
+  
   <style>
-    :root{
-      --bg:#0b1220; --card:#111a2e; --text:#e7eefc; --muted:#a9b7d6;
-      --line:rgba(255,255,255,.12); --accent:#7aa7ff; --accent2:#65f0c7;
-      --shadow: 0 20px 60px rgba(0,0,0,.35); --radius: 22px; --max: 1080px;
+    :root {
+      --bg: #050a14;
+      --card-bg: rgba(17, 26, 46, 0.6);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f0f4f8;
+      --text-dim: #94a3b8;
+      --accent: #3b82f6;
+      --accent-glow: rgba(59, 130, 246, 0.3);
+      --radius-lg: 24px;
+      --radius-md: 16px;
+      --transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "PingFang SC","Microsoft YaHei", Arial;
-      background:
-        radial-gradient(1200px 700px at 10% 10%, rgba(122,167,255,.20), transparent 60%),
-        radial-gradient(900px 600px at 90% 20%, rgba(101,240,199,.16), transparent 55%),
-        radial-gradient(900px 700px at 50% 100%, rgba(255,255,255,.06), transparent 60%),
-        var(--bg);
-      color:var(--text); line-height:1.65;
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      background-image: 
+        radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 100% 100%, rgba(16, 185, 129, 0.08) 0%, transparent 40%);
+      background-attachment: fixed;
     }
-    a{color:inherit; text-decoration:none}
-    .wrap{max-width:var(--max); margin:0 auto; padding:28px 18px 72px}
-    .nav{
-      position:sticky; top:0; z-index:10;
-      backdrop-filter: blur(10px);
-      background: linear-gradient(to bottom, rgba(11,18,32,.82), rgba(11,18,32,.35));
-      border-bottom:1px solid rgba(255,255,255,.06);
+
+    /* --- 核心语言切换逻辑 (CSS控制) --- */
+    body.lang-zh .en-only { display: none !important; }
+    body.lang-en .zh-only { display: none !important; }
+
+    /* --- 导航栏 --- */
+    .nav {
+      position: sticky; top: 0; z-index: 1000;
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      background: rgba(5, 10, 20, 0.7);
+      border-bottom: 1px solid var(--card-border);
     }
-    .nav-inner{
-      max-width:var(--max);
-      margin:0 auto;
-      padding:14px 18px;
-      display:flex; gap:14px; align-items:center; justify-content:space-between;
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0.8rem 1.5rem;
+      display: flex; justify-content: space-between; align-items: center;
     }
-    .brand{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
-    .dot{
-      width:12px;height:12px;border-radius:999px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      box-shadow: 0 0 24px rgba(122,167,255,.35);
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1rem; }
+    .nav-links { display: flex; gap: 4px; align-items: center; }
+    .nav-links a {
+      padding: 6px 12px; border-radius: 99px; font-size: 0.85rem;
+      color: var(--text-dim); text-decoration: none; transition: var(--transition);
     }
-    .links{display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:flex-end}
-    .links a{
-      font-size:14px; color:var(--muted);
-      padding:8px 10px; border-radius:999px;
-      border:1px solid transparent;
+    .nav-links a:hover, .nav-links a.active { color: var(--text-main); background: rgba(255,255,255,0.08); }
+    
+    @media (max-width: 768px) {
+      .nav-links a:not(.lang-btn) { display: none; } /* 移动端隐藏多余链接 */
+      .brand .name-en { display: none; }
     }
-    .links a:hover{border-color:rgba(255,255,255,.14); color:var(--text)}
-    .lang-toggle{
-      display:inline-flex; gap:8px; align-items:center;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.05);
-      padding:6px 10px; border-radius:999px;
-      font-size:13px; color:var(--muted);
-      cursor:pointer; user-select:none;
+
+    /* --- 布局容器 --- */
+    .container { max-width: 1100px; margin: 0 auto; padding: 2rem 1.2rem; }
+    .hero-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 1.2rem; margin-bottom: 1.2rem; }
+    @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; } }
+
+    /* --- 卡片设计 --- */
+    .card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg); padding: 2rem;
+      transition: var(--transition); position: relative;
     }
-    .lang-toggle:hover{border-color:rgba(255,255,255,.22); color:var(--text)}
-    .hero{
-      margin-top:22px;
-      display:grid;
-      grid-template-columns: 1.3fr .9fr;
-      gap:18px;
-      align-items:stretch;
+    .card:hover { border-color: rgba(255,255,255,0.15); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+
+    /* --- 标题与文字 --- */
+    h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin: 0.5rem 0; line-height: 1.1; font-weight: 800; }
+    h2 { font-size: 1.5rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px; }
+    .text-dim { color: var(--text-dim); }
+    .badge {
+      display: inline-block; padding: 4px 12px; background: rgba(59,130,246,0.1);
+      border: 1px solid rgba(59,130,246,0.2); color: var(--accent);
+      border-radius: 99px; font-size: 0.75rem; font-weight: 600;
     }
-    @media (max-width: 900px){ .hero{grid-template-columns:1fr} }
-    .card{
-      background: linear-gradient(180deg, rgba(17,26,46,.92), rgba(17,26,46,.75));
-      border:1px solid rgba(255,255,255,.10);
-      border-radius:var(--radius);
-      box-shadow: var(--shadow);
-      padding:22px;
+
+    /* --- 列表项 --- */
+    .item {
+      padding: 1.2rem; background: rgba(255,255,255,0.03); border: 1px solid var(--card-border);
+      border-radius: var(--radius-md); margin-bottom: 1rem; transition: var(--transition);
     }
-    .badge{
-      display:inline-flex; gap:8px; align-items:center;
-      padding:8px 12px; border-radius:999px;
-      border:1px solid rgba(255,255,255,.14);
-      color:var(--muted); font-size:13px;
-      background: rgba(255,255,255,.04);
+    .item:hover { background: rgba(255,255,255,0.06); padding-left: 1.5rem; }
+    .item-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+    .date-tag { font-size: 0.8rem; color: var(--text-dim); background: rgba(0,0,0,0.2); padding: 2px 8px; border-radius: 4px; }
+
+    /* --- 按钮 --- */
+    .btn-group { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 1.5rem; }
+    .btn {
+      padding: 10px 20px; border-radius: 12px; font-weight: 600; font-size: 0.9rem;
+      cursor: pointer; transition: var(--transition); text-decoration: none;
+      display: inline-flex; align-items: center; gap: 8px; border: none;
     }
-    h1{margin:14px 0 8px; font-size:40px; line-height:1.15}
-    @media (max-width: 520px){ h1{font-size:32px} }
-    .lead{color:var(--muted); font-size:16px; margin:0 0 14px}
-    .cta{display:flex; gap:12px; flex-wrap:wrap; margin-top:16px}
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center; gap:10px;
-      padding:12px 14px; border-radius:14px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.05);
-      color:var(--text);
-      font-weight:600; font-size:14px;
-      transition: transform .15s ease, border-color .15s ease, background .15s ease;
+    .btn-primary { background: var(--accent); color: white; box-shadow: 0 4px 12px var(--accent-glow); }
+    .btn-secondary { background: rgba(255,255,255,0.08); color: white; }
+    .btn:hover { transform: scale(1.03); filter: brightness(1.1); }
+
+    /* --- 动画 --- */
+    .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+
+    /* --- 锚点偏移 --- */
+    section { scroll-margin-top: 100px; }
+
+    /* 复制反馈 */
+    .toast {
+      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+      background: #10b981; color: white; padding: 10px 20px; border-radius: 99px;
+      font-size: 0.9rem; z-index: 2000; opacity: 0; pointer-events: none; transition: 0.3s;
     }
-    .btn:hover{transform: translateY(-1px); border-color: rgba(255,255,255,.22); background: rgba(255,255,255,.07)}
-    .btn.primary{
-      background: linear-gradient(135deg, rgba(122,167,255,.20), rgba(101,240,199,.18));
-      border-color: rgba(122,167,255,.35);
-    }
-    .grid{
-      margin-top:18px;
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap:14px;
-    }
-    @media (max-width: 900px){ .grid{grid-template-columns:1fr} }
-    .k{
-      padding:14px; border-radius:18px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.03);
-    }
-    .k .t{font-size:13px; color:var(--muted)}
-    .k .v{font-size:15px; margin-top:6px; font-weight:600}
-    .section{margin-top:18px}
-    .section h2{margin:0 0 10px; font-size:18px}
-    .list{display:grid; gap:10px}
-    .item{
-      padding:14px; border-radius:18px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.03);
-    }
-    .item .top{display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; align-items:center}
-    .item .name{font-weight:800}
-    .item .meta{color:var(--muted); font-size:13px}
-    .item ul{margin:10px 0 0; padding-left:18px; color:var(--muted); font-size:14px}
-    .item p{margin:8px 0 0; color:var(--muted); font-size:14px}
-    .footer{margin-top:22px; color:var(--muted); font-size:13px; text-align:center}
-    .pill{
-      display:inline-flex; gap:8px; align-items:center;
-      padding:6px 10px; border-radius:999px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.12);
-      font-size:12px; color:var(--muted);
-    }
-    .avatar{
-      width:84px; height:84px; border-radius:22px;
-      background: linear-gradient(135deg, rgba(122,167,255,.22), rgba(101,240,199,.18));
-      border:1px solid rgba(255,255,255,.14);
-      display:flex; align-items:center; justify-content:center;
-      font-weight:900; font-size:28px;
-      box-shadow: 0 18px 50px rgba(0,0,0,.25);
-    }
-    .row{display:flex; gap:14px; align-items:center; flex-wrap:wrap}
-    .copy{cursor:pointer}
-    .lang{display:none}
-    .lang.active{display:block}
-    .muted{color:var(--muted)}
-    code{background:rgba(255,255,255,.06); padding:2px 6px; border-radius:8px; border:1px solid rgba(255,255,255,.10)}
   </style>
 </head>
 
-<body>
-  <div class="nav">
+<body class="lang-zh"> <nav class="nav">
     <div class="nav-inner">
       <div class="brand">
-        <span class="dot"></span>
-        <strong>张楠远扬 / Nanyuanyang Zhang</strong>
-        <span class="pill">AI · Software</span>
+        <div style="width:12px; height:12px; border-radius:50%; background:var(--accent); box-shadow:0 0 10px var(--accent);"></div>
+        <span>张楠远扬 <span class="name-en">/ Nanyuanyang Zhang</span></span>
       </div>
-      <div class="links">
-        <a href="#about">关于 / About</a>
-        <a href="#education">教育 / Education</a>
-        <a href="#experience">实习 / Experience</a>
-        <a href="#projects">项目 / Projects</a>
-        <a href="#skills">技能 / Skills</a>
-        <a href="#contact">联系 / Contact</a>
-        <span class="lang-toggle" id="toggleLang">中文 / EN</span>
+      <div class="nav-links">
+        <a href="#about"><span class="zh-only">关于</span><span class="en-only">About</span></a>
+        <a href="#education"><span class="zh-only">教育</span><span class="en-only">Education</span></a>
+        <a href="#experience"><span class="zh-only">经历</span><span class="en-only">Experience</span></a>
+        <a href="#projects"><span class="zh-only">项目</span><span class="en-only">Projects</span></a>
+        <a href="#contact"><span class="zh-only">联系</span><span class="en-only">Contact</span></a>
+        <button onclick="toggleLang()" class="btn btn-secondary lang-btn" style="padding: 5px 12px; font-size: 0.8rem; margin-left: 10px;">
+          <span class="zh-only">English</span><span class="en-only">中文</span>
+        </button>
       </div>
     </div>
-  </div>
+  </nav>
 
-  <main class="wrap">
+  <main class="container">
+    
+    <div class="hero-grid">
+      <section class="card reveal active" id="about">
+        <span class="badge">MSc Artificial Intelligence</span>
+        <h1 class="zh-only">在困难的中心<br>同时也蕴藏着机会</h1>
+        <h1 class="en-only">In the middle of difficulty<br>is where opportunity lies</h1>
+        
+        <p class="text-dim zh-only" style="font-size: 1.1rem;">
+          奥克兰大学在读硕士（GPA 7.5/9）。专注 <b>RAG 系统、全栈应用开发</b> 与 <b>AI 落地</b>。
+          拥有国有银行科技部与头部 AI 公司的实习经验，致力于构建高性能、可扩展的智能应用以及前后端分离系统。
+        </p>
+        <p class="text-dim en-only" style="font-size: 1.1rem;">
+          MSc AI candidate @ UoA (GPA 7.5/9). Focus on <b>RAG, Full-stack Dev</b> and <b>AI Implementation</b>.
+          Experienced in fintech and AI data pipelines, aiming to build scalable, high-performance applications and front-end systems.
+        </p>
 
-    <!-- HERO -->
-    <section class="hero">
-      <div class="card" id="about">
-        <span class="badge">👋 Personal Website · 中英双语</span>
-
-        <div class="lang lang-zh active">
-          <h1>张楠远扬</h1>
-          <p class="lead">
-            奥克兰大学人工智能硕士在读（GPA <b>7.5/9</b>），本科计算机科学与技术。具备软件工程与数据处理基础，
-            熟悉前后端分离开发、云端服务与 AI 应用落地。实习经历覆盖国有银行与 AI 企业，关注 <b>AI + 金融科技 / 数据系统 / 智能应用</b>。
-          </p>
+        <div class="btn-group">
+          <a href="#projects" class="btn btn-primary"><span class="zh-only">查看项目</span><span class="en-only">View Projects</span></a>
+          <a href="https://github.com/JamesYuanyang" target="_blank" class="btn btn-secondary">GitHub</a>
+          <a href="https://www.linkedin.com/" target="_blank" class="btn btn-secondary">LinkedIn</a>
         </div>
+      </section>
 
-        <div class="lang lang-en">
-          <h1>Nanyuanyang Zhang</h1>
-          <p class="lead">
-            MSc candidate in Artificial Intelligence at the University of Auckland (<b>GPA 7.5/9</b>) with a Bachelor’s degree in Computer Science.
-            Strong foundation in software engineering, data processing, and cloud-based development. Internship experience at a major state-owned bank
-            and a leading AI company. Interested in <b>AI applications, fintech, and intelligent systems</b>.
-          </p>
+      <section class="card reveal active" style="display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+        <div style="width:140px; height:140px; background:linear-gradient(135deg, #3b82f6, #10b981); border-radius:30% 70% 70% 30% / 30% 30% 70% 70%; display:grid; place-items:center; font-size:3.5rem; color:white; font-weight:900; box-shadow:0 20px 40px rgba(59,130,246,0.2); animation: morph 8s infinite ease-in-out;">
+          张
         </div>
-
-        <div class="cta">
-          <a class="btn primary" href="#projects">Projects</a>
-          <a class="btn" href="#experience">Experience</a>
-          <a class="btn" href="#contact">Contact</a>
-          <!-- TODO: 你可以把 GitHub/LinkedIn 换成自己的主页 -->
-          <a class="btn" href="https://github.com/" target="_blank" rel="noreferrer">GitHub</a>
-          <a class="btn" href="https://www.linkedin.com/" target="_blank" rel="noreferrer">LinkedIn</a>
-        </div>
-
-        <div class="grid">
-          <div class="k">
-            <div class="t">Focus</div>
-            <div class="v lang lang-zh active">多模态检索 / LLM 应用 / 数据系统</div>
-            <div class="v lang lang-en">Multimodal Retrieval / LLM Apps / Data Systems</div>
-          </div>
-          <div class="k">
-            <div class="t">Current</div>
-            <div class="v lang lang-zh active">MSc AI @ University of Auckland</div>
-            <div class="v lang lang-en">MSc AI @ University of Auckland</div>
-          </div>
-          <div class="k">
-            <div class="t">Highlight</div>
-            <div class="v lang lang-zh active">前后端分离 · Serverless · RAG</div>
-            <div class="v lang lang-en">FE/BE Split · Serverless · RAG</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="row">
-          <div class="avatar">张</div>
-          <div>
-            <div style="font-weight:900; font-size:18px;" class="lang lang-zh active">简短介绍</div>
-            <div style="font-weight:900; font-size:18px;" class="lang lang-en">A quick personal note</div>
-
-            <div class="muted" style="font-size:14px;" class="lang lang-zh active">
-              我关注检索质量提升、数据构建与训练/评测管线，以及可落地的 AI 产品化。
+        <div style="margin-top:2rem; width:100%;">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <div class="item" style="margin:0; padding:10px;">
+              <small class="text-dim">GPA</small><div style="font-weight:700;">7.5 / 9.0</div>
             </div>
-            <div class="muted" style="font-size:14px;" class="lang lang-en">
-              I enjoy building reliable data pipelines and practical AI systems, especially for retrieval and evaluation workflows.
+            <div class="item" style="margin:0; padding:10px;">
+              <small class="text-dim"><span class="zh-only">状态</span><span class="en-only">Status</span></small>
+              <div style="font-weight:700;"><span class="zh-only">求职中</span><span class="en-only">Seeking</span></div>
             </div>
           </div>
         </div>
-
-        <div class="section">
-          <h2 class="lang lang-zh active">关键信息</h2>
-          <h2 class="lang lang-en">Quick Facts</h2>
-          <div class="list">
-            <div class="item">
-              <div class="top">
-                <span class="name lang lang-zh active">学历</span>
-                <span class="name lang lang-en">Education</span>
-                <span class="meta">MSc AI / BSc CS</span>
-              </div>
-              <p class="lang lang-zh active">奥克兰大学人工智能硕士在读；西南大学计算机科学与技术学士。</p>
-              <p class="lang lang-en">MSc in AI at University of Auckland; BSc in CS at Southwest University.</p>
-            </div>
-            <div class="item">
-              <div class="top">
-                <span class="name lang lang-zh active">实习覆盖</span>
-                <span class="name lang lang-en">Internships</span>
-                <span class="meta">Bank · AI Company</span>
-              </div>
-              <p class="lang lang-zh active">国有银行（系统开发）+ AI 公司（人脸识别数据分析）。</p>
-              <p class="lang lang-en">State-owned bank (system development) + AI company (facial recognition data analysis).</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- EDUCATION -->
-    <section class="section card" id="education">
-      <h2 class="lang lang-zh active">教育背景</h2>
-      <h2 class="lang lang-en">Education</h2>
-
-      <div class="list">
-        <div class="item">
-          <div class="top">
-            <span class="name lang lang-zh active">奥克兰大学（University of Auckland）</span>
-            <span class="name lang lang-en">University of Auckland</span>
-            <span class="meta">Sep 2024 – Present</span>
-          </div>
-          <p class="lang lang-zh active">Master of Artificial Intelligence（硕士）｜GPA 7.5/9</p>
-          <p class="lang lang-en">Master of Artificial Intelligence | GPA 7.5/9</p>
-        </div>
-
-        <div class="item">
-          <div class="top">
-            <span class="name lang lang-zh active">西南大学（Southwest University）</span>
-            <span class="name lang lang-en">Southwest University</span>
-            <span class="meta">Sep 2020 – Sep 2024</span>
-          </div>
-          <p class="lang lang-zh active">计算机科学与技术（学士）</p>
-          <p class="lang lang-en">Bachelor of Computer Science</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- EXPERIENCE -->
-    <section class="section card" id="experience">
-      <h2 class="lang lang-zh active">实习经历</h2>
-      <h2 class="lang lang-en">Internship Experience</h2>
-
-      <div class="list">
-        <div class="item">
-          <div class="top">
-            <span class="name lang lang-zh active">中国农业银行 · 重庆市分行｜科技部</span>
-            <span class="name lang lang-en">Agricultural Bank of China · Chongqing Branch</span>
-            <span class="meta">Jun 2023 – Aug 2023</span>
-          </div>
-
-          <div class="lang lang-zh active">
-            <ul>
-              <li>独立完成信用卡销售系统前后端分离项目（非商用）</li>
-              <li>基于 <code>RuoYi</code> 框架实现核心功能模块</li>
-              <li>支持销售与管理员进行数据采集、统计与分析</li>
-              <li>理解银行系统的合规、权限控制与数据安全要求</li>
-            </ul>
-          </div>
-
-          <div class="lang lang-en">
-            <ul>
-              <li>Independently developed a non-commercial credit card sales system using FE/BE separation</li>
-              <li>Implemented core modules based on the <code>RuoYi</code> framework</li>
-              <li>Enabled data collection and analysis for sales staff and administrators</li>
-              <li>Gained hands-on understanding of compliance, access control, and data security</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="item">
-          <div class="top">
-            <span class="name lang lang-zh active">科大讯飞（iFLYTEK）｜数据集成实习生</span>
-            <span class="name lang lang-en">iFLYTEK · Data Integration Intern</span>
-            <span class="meta">Mar 2023 – May 2023</span>
-          </div>
-
-          <div class="lang lang-zh active">
-            <ul>
-              <li>参与人脸识别相关数据的探索与分析</li>
-              <li>协助开发用于提升识别准确率的数据处理应用</li>
-              <li>与工程师协作设计并优化数据处理流程</li>
-              <li>整理技术文档并输出研究型总结</li>
-            </ul>
-          </div>
-
-          <div class="lang lang-en">
-            <ul>
-              <li>Conducted exploratory analysis on facial recognition datasets</li>
-              <li>Assisted in building data-processing applications to improve recognition accuracy</li>
-              <li>Collaborated with engineers to optimize data pipelines</li>
-              <li>Documented key findings and research insights</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- PROJECTS (修复：完整闭合 list 与 section，导航锚点正常) -->
-    <section class="section card" id="projects">
-      <h2 class="lang lang-zh active">项目经历</h2>
-      <h2 class="lang lang-en">Projects</h2>
-
-      <div class="list">
-        <div class="item">
-          <div class="top">
-            <span class="name lang lang-zh active">IBM Watsonx · RAG 智能评估系统</span>
-            <span class="name lang lang-en">IBM Watsonx · RAG-based Evaluation System</span>
-            <span class="meta">IBM Cloud · RAG · Visualization</span>
-          </div>
-
-          <div class="lang lang-zh active">
-            <ul>
-              <li>基于 IBM Cloud / Watsonx AI APIs 构建 RAG 搜索与推理系统</li>
-              <li>面向学生申请材料的合规性审查与智能解读</li>
-              <li>支持教师快速理解、评估并可视化展示结果</li>
-            </ul>
-          </div>
-
-          <div class="lang lang-en">
-            <ul>
-              <li>Built a RAG system using IBM Cloud / Watsonx AI APIs</li>
-              <li>Designed for compliance verification and intelligent assessment of student application documents</li>
-              <li>Provided visualization and structured interpretation to support decision-making</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="item">
-          <div class="top">
-            <span class="name lang lang-zh active">电子商务网站系统（E-commerce Platform）</span>
-            <span class="name lang lang-en">E-commerce Platform</span>
-            <span class="meta">React · AWS SAM/Lambda · Repo</span>
-          </div>
-
-          <div class="lang lang-zh active">
-            <ul>
-              <li>项目仓库：<a href="https://github.com/JamesYuanyang/sam-with-postgres" target="_blank" rel="noreferrer">JamesYuanyang/sam-with-postgres</a></li>
-              <li>系统组件：Backend（sam-with-postgres）、Frontend（frontend）、StockManager（admin-page/vite-project）</li>
-              <li>支持商品浏览与购买，支付集成 Stripe（并包含 PayPal 相关实现）</li>
-              <li>认证使用 AWS Cognito，StockManager 强制 MFA；库存管理接口与主 API 隔离并进行严格权限控制</li>
-              <li>（可选）README 中包含已部署的 CloudFront 访问地址</li>
-            </ul>
-          </div>
-
-          <div class="lang lang-en">
-            <ul>
-              <li>Repo: <a href="https://github.com/JamesYuanyang/sam-with-postgres" target="_blank" rel="noreferrer">JamesYuanyang/sam-with-postgres</a></li>
-              <li>Components: Backend (sam-with-postgres), Frontend (frontend), StockManager (admin-page/vite-project)</li>
-              <li>Supports product browsing & purchasing; payment via Stripe (and PayPal-related implementation)</li>
-              <li>Authentication via AWS Cognito; StockManager enforces MFA; stock endpoints are separated and locked down</li>
-              <li>(Optional) README includes deployed CloudFront URLs</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SKILLS -->
-    <section class="section card" id="skills">
-      <h2 class="lang lang-zh active">技能清单</h2>
-      <h2 class="lang lang-en">Skills</h2>
-
-      <div class="grid">
-        <div class="k">
-          <div class="t lang lang-zh active">编程</div>
-          <div class="t lang lang-en">Programming</div>
-          <div class="v">Python · R</div>
-        </div>
-        <div class="k">
-          <div class="t lang lang-zh active">工程</div>
-          <div class="t lang lang-en">Engineering</div>
-          <div class="v lang lang-zh active">前后端分离 · 数据分析 · 系统开发</div>
-          <div class="v lang lang-en">FE/BE Split · Data Analysis · System Development</div>
-        </div>
-        <div class="k">
-          <div class="t lang lang-zh active">云与架构</div>
-          <div class="t lang lang-en">Cloud</div>
-          <div class="v">AWS · Serverless · DynamoDB · Lambda</div>
-        </div>
-      </div>
-
-      <div class="section" style="margin-top:14px;">
-        <div class="item">
-          <div class="top">
-            <span class="name lang lang-zh active">语言能力</span>
-            <span class="name lang lang-en">Languages</span>
-            <span class="meta">EN · 中文</span>
-          </div>
-          <p class="lang lang-zh active">英语：流利；普通话：母语</p>
-          <p class="lang lang-en">English: Fluent; Mandarin: Native</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTACT (修复：两邮箱/两电话分卡片，更清晰) -->
-    <section class="section card" id="contact">
-      <h2 class="lang lang-zh active">联系我</h2>
-      <h2 class="lang lang-en">Contact</h2>
-
-      <div class="list">
-        <div class="item">
-          <div class="top">
-            <span class="name">Email (UoA)</span>
-            <span class="meta copy" data-copy="nzha229@aucklanduni.ac.nz">点击复制 / Copy</span>
-          </div>
-          <p><a class="muted" href="mailto:nzha229@aucklanduni.ac.nz">nzha229@aucklanduni.ac.nz</a></p>
-        </div>
-
-        <div class="item">
-          <div class="top">
-            <span class="name">Email (QQ)</span>
-            <span class="meta copy" data-copy="2939811706@qq.com">点击复制 / Copy</span>
-          </div>
-          <p><a class="muted" href="mailto:2939811706@qq.com">2939811706@qq.com</a></p>
-        </div>
-
-        <div class="item">
-          <div class="top">
-            <span class="name">Phone (NZ)</span>
-            <span class="meta copy" data-copy="+64 29 0231 2236">点击复制 / Copy</span>
-          </div>
-          <p class="muted">+64 29 0231 2236</p>
-        </div>
-
-        <div class="item">
-          <div class="top">
-            <span class="name">Phone (CN)</span>
-            <span class="meta copy" data-copy="+86 185 2333 0121">点击复制 / Copy</span>
-          </div>
-          <p class="muted">+86 185 2333 0121</p>
-        </div>
-      </div>
-    </section>
-
-    <div class="footer">
-      © <span id="y"></span> 张楠远扬 / Nanyuanyang Zhang · Built with HTML
+      </section>
     </div>
+
+    <section class="card reveal" id="education" style="margin-bottom:1.2rem;">
+      <h2><span class="zh-only">教育背景</span><span class="en-only">Education</span></h2>
+      <div class="item">
+        <div class="item-header">
+          <strong><span class="zh-only">奥克兰大学</span><span class="en-only">University of Auckland</span></strong>
+          <span class="date-tag">2024.09 - Present</span>
+        </div>
+        <div class="text-dim"><span class="zh-only">人工智能硕士</span><span class="en-only">Master of Artificial Intelligence</span> | GPA 7.5/9</div>
+      </div>
+      <div class="item">
+        <div class="item-header">
+          <strong><span class="zh-only">西南大学</span><span class="en-only">Southwest University</span></strong>
+          <span class="date-tag">2020.09 - 2024.06</span>
+        </div>
+        <div class="text-dim"><span class="zh-only">计算机科学与技术（学士）</span><span class="en-only">B.Sc. in Computer Science</span></div>
+      </div>
+    </section>
+
+    <section class="card reveal" id="experience" style="margin-bottom:1.2rem;">
+      <h2><span class="zh-only">实习经历</span><span class="en-only">Experience</span></h2>
+      <div class="item">
+        <div class="item-header">
+          <strong><span class="zh-only">中国农业银行 · 重庆分行科技部</span><span class="en-only">Agricultural Bank of China · Tech Dept</span></strong>
+          <span class="date-tag">2023.06 - 2023.08</span>
+        </div>
+        <ul class="text-dim" style="font-size:0.9rem; margin-top:0.8rem;">
+          <li class="zh-only">主导开发信用卡销售系统，采用 RuoYi 框架实现前后端分离。</li>
+          <li class="zh-only">负责数据统计模块，支持销售数据采集、报表生成及分级权限管理。</li>
+          <li class="en-only">Developed a credit card sales system using RuoYi framework with FE/BE separation.</li>
+          <li class="en-only">Implemented data analytics modules for sales tracking and hierarchical access control.</li>
+        </ul>
+      </div>
+      <div class="item">
+        <div class="item-header">
+          <strong><span class="zh-only">科大讯飞 (iFLYTEK)</span><span class="en-only">iFLYTEK</span></strong>
+          <span class="date-tag">2023.03 - 2023.05</span>
+        </div>
+        <ul class="text-dim" style="font-size:0.9rem; margin-top:0.8rem;">
+          <li class="zh-only">参与人脸识别数据处理管线，进行数据清洗与多维度探索性分析。</li>
+          <li class="zh-only">开发自动化测试脚本，协助优化模型在不同光照条件下的识别率。</li>
+          <li class="en-only">Contributed to facial recognition data pipelines, conducting EDA and data cleaning.</li>
+          <li class="en-only">Developed automated scripts to optimize recognition rates under various lighting conditions.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="card reveal" id="projects">
+      <h2><span class="zh-only">核心项目</span><span class="en-only">Projects</span></h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:1.2rem;">
+        <div class="item" style="margin:0;">
+          <div class="badge" style="margin-bottom:10px;">IBM Watsonx · RAG</div>
+          <h4 style="margin:5px 0;"><span class="zh-only">申请审核RAG解决方案</span><span class="en-only">RAG Application Review</span></h4>
+          <p class="text-dim" style="font-size:0.85rem;">
+            <span class="zh-only">基于 RAG 架构实现学生材料自动审核，提供分析报告与改进建议。</span>
+            <span class="en-only">RThe system uses a RAG architecture to automatically review student materials and provides analysis reports and improvement suggestions.</span>
+          </p>
+        </div>
+        <div class="item" style="margin:0;">
+          <div class="badge" style="margin-bottom:10px;">AWS · Ecommerce</div>
+          <h4 style="margin:5px 0;"><span class="zh-only">电子商务平台</span><span class="en-only">E-commerce</span></h4>
+          <p class="text-dim" style="font-size:0.85rem;">
+            <span class="zh-only">采用 Lambda+DynamoDB，集成 Stripe/PayPal 支付与 Cognito 安全认证。</span>
+            <span class="en-only">Built with Lambda+DynamoDB, integrating Stripe/PayPal and Cognito MFA.</span>
+          </p>
+          <a href="https://github.com/GeorgeBrooker/EcogreenCapstone" target="_blank" style="color:var(--accent); font-size:0.8rem; text-decoration:none;">Repo →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="card reveal" id="contact" style="margin-top:1.2rem; text-align:center;">
+      <h2><span class="zh-only">联系我</span><span class="en-only">Contact Me</span></h2>
+      <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
+        <button class="btn btn-secondary" onclick="copyText('nzha229@aucklanduni.ac.nz')">Email (UoA)</button>
+        <button class="btn btn-secondary" onclick="copyText('2939811706@qq.com')">Email (QQ)</button>
+        <button class="btn btn-secondary" onclick="copyText('+64 29 0231 2236')">Phone (NZ)</button>
+        <button class="btn btn-secondary" onclick="copyText('+86 185 2333 0121')">Phone (CN)</button>
+      </div>
+    </section>
+
+    <footer style="margin-top:4rem; padding:2rem; text-align:center; color:var(--text-dim); font-size:0.8rem; border-top:1px solid var(--card-border);">
+      © <span id="year"></span> 张楠远扬 / Nanyuanyang Zhang. <span class="zh-only">基于 HTML/CSS 构建</span><span class="en-only">Built with Passion</span>
+    </footer>
   </main>
 
+  <div id="toast" class="toast">已复制 / Copied!</div>
+
   <script>
-    // year
-    document.getElementById('y').textContent = new Date().getFullYear();
-
-    // copy
-    document.querySelectorAll('[data-copy]').forEach(el => {
-      el.addEventListener('click', async () => {
-        const text = el.getAttribute('data-copy');
-        try{
-          await navigator.clipboard.writeText(text);
-          const old = el.textContent;
-          el.textContent = '已复制 / Copied';
-          setTimeout(()=> el.textContent = old, 1200);
-        }catch(e){
-          alert('复制失败，请手动复制：' + text);
-        }
-      });
-    });
-
-    // language toggle
-    let isZh = true;
-    const btn = document.getElementById('toggleLang');
-
-    function applyLang(){
-      document.querySelectorAll('.lang-zh').forEach(x => x.classList.toggle('active', isZh));
-      document.querySelectorAll('.lang-en').forEach(x => x.classList.toggle('active', !isZh));
-      btn.textContent = isZh ? '中文 / EN' : 'EN / 中文';
+    // 1. 语言切换
+    function toggleLang() {
+      const body = document.body;
+      if (body.classList.contains('lang-zh')) {
+        body.classList.replace('lang-zh', 'lang-en');
+        document.documentElement.lang = 'en';
+      } else {
+        body.classList.replace('lang-en', 'lang-zh');
+        document.documentElement.lang = 'zh-CN';
+      }
     }
 
-    btn.addEventListener('click', () => { isZh = !isZh; applyLang(); });
-    applyLang();
+    // 2. 滚动进场动画
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('active');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // 3. 复制功能
+    function copyText(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        const toast = document.getElementById('toast');
+        toast.style.opacity = '1';
+        setTimeout(() => toast.style.opacity = '0', 2000);
+      });
+    }
+
+    // 4. 自动年份
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // 5. 导航栏高亮
+    window.addEventListener('scroll', () => {
+      let current = "";
+      document.querySelectorAll('section').forEach(section => {
+        const top = section.offsetTop;
+        if (pageYOffset >= top - 120) current = section.getAttribute('id');
+      });
+      document.querySelectorAll('.nav-links a').forEach(a => {
+        a.classList.remove('active');
+        if (a.getAttribute('href') === `#${current}`) a.classList.add('active');
+      });
+    });
   </script>
+
+  <style>
+    @keyframes morph {
+      0%, 100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+      50% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+    }
+  </style>
 </body>
 </html>
-
